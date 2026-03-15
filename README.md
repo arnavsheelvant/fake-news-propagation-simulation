@@ -1,91 +1,157 @@
-# Modeling Fake News Spread and Containment in Social Networks
+# Fake News Spread Simulator
 
-This project implements an agent-based simulation to analyze how misinformation propagates through social networks and how interventions such as fact-checking and immune users affect its spread.
+*A Social Computing Course Project — Semester 5*
 
-The simulator models realistic social media behavior using graph-based network structures and probabilistic information diffusion dynamics.
-
----
-
-## Problem Motivation
-
-Fake news spreads rapidly on social media, often faster than verified information.  
-Echo chambers and repeated exposure to misinformation can distort public understanding and influence decision-making.
-
-This project explores how network structure and intervention strategies affect misinformation spread.
+This project simulates how fake news and real news spread through a social network.
+It allows users to adjust parameters (probabilities, network size, interventions) and visualize diffusion over time using an animated graph.
 
 ---
 
-## Methodology
+## Features
 
-A social network with **N users** is generated using three classical network models:
+###  Interactive Controls
 
-- Erdős–Rényi (random networks)
-- Watts–Strogatz (small-world networks)
-- Barabási–Albert (scale-free networks)
+* Fake news spread probability
+* Real news spread probability
+* Network size
+* Fact-checker toggle
+* Forward limit toggle
 
-Each node represents a user and can exist in one of five states:
+###  Network Visualization
+
+* vis-network interactive graph
+* Node states:
+
+  * **Gray** — Unreached
+  * **Green** — Real news
+  * **Red** — Fake news
+  * **Purple** — Immune
+  * **Blue** — Fact-Checker
+
+###  Simulation Statistics
+
+* Fake reach percentage
+* Real reach percentage
+* Number of time steps
+* Peak fake spread
+* Final state distribution
+
+---
+
+## Tech Stack
+
+### **Frontend**
+
+* HTML, CSS, JavaScript
+* vis-network.js
+
+### **Backend**
+
+* Python
+* FastAPI
+* NetworkX
+* Matplotlib
+
+---
+
+## 📁 Folder Structure
 
 ```
-0 → Unreached  
-1 → Real information  
-2 → Fake information  
-3 → Fact-checker  
-4 → Immune
-```
-
-Information spreads according to probabilistic transmission rules:
-
-- Fake → Unreached: first share = 1, subsequent shares = \(p_f\)
-- Real → Unreached: probability \(p_r\)
-- Fact-checkers convert fake nodes with probability \(p_c\)
-
-Additional behavioral constraints include:
-
-- forwarding limits
-- immune users resistant to misinformation
-- intervention by fact-checking agents
-
----
-
-## Metrics Tracked
-
-The simulation records several propagation metrics:
-
-- Fake news prevalence over time  
-- Real information adoption rate  
-- Convergence step of the network  
-- Peak misinformation percentage  
-
-Key equations:
-
-```
-Fake%(t) = (F_t / N) × 100
-Real%(t) = (R_t / N) × 100
+/project-root
+│
+├── backend/
+│   ├── main.py
+│   ├── simulation.py
+│   ├── metrics.py
+│
+└── frontend/
+    ├── index.html
+    ├── style.css
+    └── script.js
 ```
 
 ---
 
-## Technologies Used
+## How the Simulation Works
 
-- Python
-- NetworkX
-- NumPy
-- FastAPI
-- Matplotlib / Seaborn
+1. The user chooses parameters from the UI.
+2. Frontend sends parameters to `/simulate` via POST.
+3. Backend:
+
+   * Generates a network (random, small-world, or scale-free)
+   * Assigns initial states to nodes
+   * Simulates spread step-by-step
+   * Tracks statistics
+4. Backend returns:
+
+   * Network structure
+   * Timeline of node states
+   * Stats
+5. Frontend animates the graph and updates stats.
 
 ---
 
-## Example Applications
+## Running the Project
 
-- Studying misinformation containment strategies
-- Evaluating fact-checking interventions
-- Understanding echo chamber dynamics
-- Designing safer social media information systems
+### **1️Backend Setup**
+
+Inside `/backend`:
+
+```bash
+pip install fastapi uvicorn networkx matplotlib
+uvicorn main:app --reload --port 8000
+```
+
+Visit:
+[http://localhost:8000/](http://localhost:8000/)
+(You should see: `{ "message": "Backend running" }`)
 
 ---
 
-## Future Improvements
+### **2️Frontend Setup**
 
-- Multi-layer social networks
-- Temporal interaction graphs
-- Reinforcement learning intervention policies
+#### Option A — Simple
+
+Open `frontend/index.html` in a browser.
+
+#### Option B — Recommended (Local Server)
+
+```bash
+cd frontend
+python -m http.server 5500
+```
+
+Visit:
+[http://localhost:5500/](http://localhost:5500/)
+
+---
+
+## Testing the Simulator
+
+1. Adjust sliders (p_fake, p_real, network size)
+2. Enable/disable interventions
+3. Click **Start Simulation**
+4. Watch nodes animate over time
+5. View updated stats in panel
+
+Try experimenting with:
+
+* High fake probability
+* Fact-checkers ON vs OFF
+* Large vs small networks
+* Forward limit changes
+
+---
+
+## Team BallBusters
+
+* **Manogna** — UI/UX, frontend, backend and frontend integration
+* **Anushka** — Spread model logic, research
+* **Arnav** — Data analysis, simulation metrics
+* **Manjari** — Backend implementation, hosting
+
+---
+
+## License
+
+Academic project (Mahindra University — Social Computing Course, 2025)
