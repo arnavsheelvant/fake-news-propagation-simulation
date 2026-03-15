@@ -1,67 +1,84 @@
-# Fake News Spread Simulator
+# Fake News Propagation Simulator
 
-*A Social Computing Course Project — Semester 5*
+Agent-based simulation of misinformation diffusion in social networks using graph-based models.
 
-This project simulates how fake news and real news spread through a social network.
-It allows users to adjust parameters (probabilities, network size, interventions) and visualize diffusion over time using an animated graph.
-
----
-
-## Features
-
-###  Interactive Controls
-
-* Fake news spread probability
-* Real news spread probability
-* Network size
-* Fact-checker toggle
-* Forward limit toggle
-
-###  Network Visualization
-
-* vis-network interactive graph
-* Node states:
-
-  * **Gray** — Unreached
-  * **Green** — Real news
-  * **Red** — Fake news
-  * **Purple** — Immune
-  * **Blue** — Fact-Checker
-
-###  Simulation Statistics
-
-* Fake reach percentage
-* Real reach percentage
-* Number of time steps
-* Peak fake spread
-* Final state distribution
+Developed as part of the **Social Computing course (Mahindra University, Semester 5)**.
 
 ---
 
-## Tech Stack
+## Overview
 
-### **Frontend**
+Misinformation spreads rapidly across social media platforms, often faster than verified information.  
+Echo chambers and repeated exposure amplify the spread, making misinformation difficult to contain.
 
-* HTML, CSS, JavaScript
-* vis-network.js
-
-### **Backend**
-
-* Python
-* FastAPI
-* NetworkX
-* Matplotlib
+This project implements a **network-based simulation framework** that models how fake and real information propagate through different social network structures and how interventions such as fact-checking influence diffusion dynamics.
 
 ---
 
-## 📁 Folder Structure
+## Network Models
 
-```
-/project-root
-│
-├── backend/
-│   ├── main.py
-│   ├── simulation.py
+The simulator generates synthetic social networks using classical graph models:
+
+- **Erdős–Rényi (Random Graph)**
+- **Watts–Strogatz (Small-World Network)**
+- **Barabási–Albert (Scale-Free Network)**
+
+These models capture different patterns of real-world social connectivity.
+
+---
+
+## Node States
+
+Each node represents a social media user and can be in one of five states:
+
+| State | Meaning |
+|------|--------|
+| 0 | Unreached |
+| 1 | Real Information |
+| 2 | Fake Information |
+| 3 | Fact-Checker |
+| 4 | Immune |
+
+---
+
+## Diffusion Model
+
+Information spreads through probabilistic transitions between nodes.
+
+Key parameters:
+
+- **p_fake** — fake news transmission probability  
+- **p_real** — real news transmission probability  
+- **p_c** — fact-checker conversion probability  
+- **F** — number of fact-checkers  
+- **I** — number of immune users  
+- **L** — forwarding limit per user  
+
+Example transition rules:
+
+Fake → Unreached  
+First share: probability = 1  
+Subsequent shares: probability = p_fake  
+
+Real → Unreached  
+Probability = p_real  
+
+Fact-checker → Fake  
+Conversion probability = p_c  
+
+---
+
+## Metrics Tracked
+
+The simulation records diffusion statistics across time steps:
+
+- Fake news prevalence
+- Real information adoption
+- Peak misinformation spread
+- Convergence step of the network
+- Final distribution of node states
+
+Key metrics:
 │   ├── metrics.py
 │
 └── frontend/
