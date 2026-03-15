@@ -33,11 +33,11 @@ Each node represents a social media user and can be in one of five states:
 
 | State | Meaning |
 |------|--------|
-| 0 | Unreached |
-| 1 | Real Information |
-| 2 | Fake Information |
-| 3 | Fact-Checker |
-| 4 | Immune |
+| Gray | Unreached |
+| Green | Real Information |
+| Red | Fake Information |
+| Blue | Fact-Checker |
+| Purple | Immune |
 
 ---
 
